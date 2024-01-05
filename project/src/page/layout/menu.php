@@ -58,5 +58,33 @@
                 </li>
             </a>
         </ul>
+        <li class="parent-menu position-relative on">
+            <i class="bi bi-door-open"></i>
+            Quản lý thẻ xe
+            <span class="arrow position-absolute">
+                <i class="bi bi-chevron-left left d-none"></i>
+                <i class="bi bi-chevron-down down"></i>
+            </span>
+        </li>
+        <ul class="list-unstyled sub-menu">
+            <a href="./dsthe.php">
+                <li>
+                    <i class="bi bi-border-style"></i>
+                    Danh sách thẻ xe
+                </li>
+            </a>
+            <a href="#">
+                <li>
+                    <i class="bi bi-patch-plus"></i>
+                    Thêm thẻ xe
+                </li>
+            </a>
+            <a href="#">
+                <li>
+                    <i class="bi bi-vector-pen"></i>
+                    Sửa thông tin thẻ xe
+                </li>
+            </a>
+        </ul>
     </ul>
 </nav>
