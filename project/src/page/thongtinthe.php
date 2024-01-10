@@ -73,7 +73,7 @@
                                         <label for="exampleFormControlInput1" class="form-label">Trạng thái hoạt động:</label>
                                         <select name="tinhtrang" id="" class="form-select">
                                         <?php
-                                        $sql = "SELECT tinhtrang, id from tinhtrang";
+                                        $sql = "SELECT tinhtrang, id from tinhtrang where id in (16,10,15)";
                                         $result = query_no_input($sql);
                                         if ($result->num_rows > 0) {
                                             while ($rowtt = $result->fetch_assoc()) {
