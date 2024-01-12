@@ -1,16 +1,12 @@
 <?php
+require 'helper.php';
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['image'])) {
             $imgData = $_POST['image'];
-
-            // loại bỏ phần đầu của base64(chỉ định kiểu và đuôi ảnh)
-            $imgData = str_replace('data:image/png;base64,', '', $imgData);
-            //thay ' ' thành + để chuẩn định dạng base64
-            $imgData = str_replace(' ', '+', $imgData);
-
-            // Giải mã dữ liệu ảnh từ Base64
-            $imgDecoded = base64_decode($imgData);
+            
+            // lấy base64 img
+            $imgDecoded = getBase64($imgData);
 
             // Đường dẫn đến thư mục lưu trữ ảnh
             $uploadPath = '..\..\public\image\uploads\\';
@@ -27,7 +23,16 @@ try {
 
                 // lưu ảnh
                 $success = file_put_contents($file, $imgDecoded);
-
+                $sql = "update sinhvien set anh = ? where id = ?";
+                $arr = str_split($_POST['idsv']);
+                
+                $id = "";
+                foreach ($arr as $value) {
+                    if(ctype_digit($value)) {
+                        $id.=$value;
+                    }
+                }
+                $result = query_input($sql, [$_POST['idsv'], $id]);
                 if ($success) {
                     echo respone(200, "Đã lưu trữ ảnh: $fileName");
                     exit();
@@ -47,6 +52,7 @@ try {
         echo respone(503, "Phương thức không hợp kệ");
     }
 } catch (Exception $e) {
+    log_error($e->getMessage());
     echo respone(504, "Lỗi trong quá trình xử lý");
     exit();
 }

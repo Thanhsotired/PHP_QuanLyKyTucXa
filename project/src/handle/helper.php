@@ -7,7 +7,7 @@
             $start = $GLOBALS["conn"]->prepare($sql);
             $run = $start->execute();
             $typeSql = explode(" ", trim($sql))[0];
-            if($typeSql === "SELECT" && $run) {
+            if(strtoupper($typeSql) === "SELECT" && $run) {
                 $result = $start->get_result();
                 closeDB($start);
                 return $result;
@@ -17,6 +17,7 @@
                 return $run;
             }
         }catch(Exception $e) {
+            log_error($e->getMessage());
             throw new Exception;
         }
         
@@ -37,7 +38,7 @@
                     $types .= "i"; // Loại dữ liệu là integer
                 } elseif (is_float($value)) {
                     $types .= "d"; // Loại dữ liệu là double
-                } elseif (is_string($value)) {
+                } else {
                     $types .= "s"; // Loại dữ liệu là string
                 }
             }
@@ -53,6 +54,7 @@
                 return $run;
             }
         }catch (Exception $e) {
+            log_error($e->getMessage());
             throw new Exception($e->getMessage());
         }
         
@@ -77,7 +79,7 @@
     }
 
     // kiểm tra có tồn tại hoặc rỗng
-    function checkRequest($method, $names, $allow) {
+    function checkRequest($method, $names, $allow=false) {
         foreach($names as $name) {
             if(isset($method["$name"])) {
                 if($method["$name"] == 0 && $allow) {}
@@ -149,7 +151,45 @@
             }
             return $envData; 
         }catch (Exception $e) {
+            log_error($e->getMessage());
             return ["error"=>true];
         }
+    }
+
+    function log_error($message) {
+        
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $dateTime = new DateTime();
+        $error_message = $dateTime->format('Y-m-d H:i:s')."||".$message;
+        // Đường dẫn đến tệp tin log của bạn
+        $log_file = '../config/log_error.txt';
+
+        // Ghi thông điệp lỗi vào tệp tin log
+        file_put_contents($log_file, $error_message . PHP_EOL, FILE_APPEND);
+    }
+
+    function covint($inp, $key = false) {
+        $rt = NULL;
+        if($key) {
+            if(checkRequest($inp, [$key])) {
+                $rt = intval($inp[$key]);
+            }
+        }else {
+            $rt = intval($inp);
+        }
+        return $rt;
+    }
+
+
+    function getBase64($F) {
+            
+        // loại bỏ phần đầu của base64(chỉ định kiểu và đuôi ảnh)
+        $imgData = str_replace('data:image/png;base64,', '', $F);
+        //thay ' ' thành + để chuẩn định dạng base64
+        $imgData = str_replace(' ', '+', $imgData);
+
+        // Giải mã dữ liệu ảnh từ Base64
+        $imgDecoded = base64_decode($imgData);
+        return $imgDecoded;
     }
 ?> 
