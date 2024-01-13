@@ -27,10 +27,13 @@
                                 duyệt</button></a>
                         <a href="dsthe.php?tt=10"><button class="btn bgr-no-ok me-3" type="button"><img
                                     src="../../public/image/icon/null.png" alt="" class="img-icon">Báo mất</button></a>
+                        <a href="themthe.php"><button class="btn btn-success me-3" type="button"><img
+                                    src="../../public/image/icon/them.png" alt="" class="img-icon">Thêm thẻ xe</button></a>
+
 
                     </form>
                 </nav>
-                <!-- <form class="row g-3"> -->
+                <div class="row g-3">
                 <div class="col-md-6">
                     <input type="" class="form-control" style="margin-top: 15px;" id="input" placeholder="Nhập...">
                 </div>
@@ -38,7 +41,7 @@
                     <a href=""></a>
                     <button id="timkiem" class="btn btn-primary mb-3" style="margin-top: 15px" ;>Tìm kiếm</button>
                 </div>
-                <!-- </form> -->
+               
             </div>
             <div class="table-sv">
                 <table class="table table-hover">
@@ -185,7 +188,6 @@
             if (nhapp.trim() != "") {
                 // Lấy URL hiện tại
                 let currentURL = new URL(window.location.href);
-
                 // Khởi tạo một URLSearchParams từ query string hiện tại
                 let searchParams = currentURL.searchParams;
 
@@ -200,6 +202,7 @@
 
                 // Gán lại query string đã chỉnh sửa vào URL
                 currentURL.search = searchParams.toString();
+                // console.log(searchParams.toString());
 
                 // Chuyển hướng trang đến URL mới và tải lại trang
                 window.location.href = currentURL;
